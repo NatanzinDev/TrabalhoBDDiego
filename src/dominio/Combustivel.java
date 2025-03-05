@@ -12,7 +12,7 @@ public class Combustivel {
 	private String nome;
 	private String valor;
 	private String tipo;
-	private String dataabastecimento;
+	private Venda venda;
 	
 	public int getId() {
 		return id;
@@ -38,12 +38,13 @@ public class Combustivel {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	public String getDataabastecimento() {
-		return dataabastecimento;
+	public Venda getVenda() {
+		return venda;
 	}
-	public void setDataabastecimento(String dataabastecimento) {
-		this.dataabastecimento = dataabastecimento;
+	public void setVenda(Venda venda) {
+		this.venda = venda;
 	}
+	
 	
 	
 
