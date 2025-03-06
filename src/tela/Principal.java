@@ -86,7 +86,12 @@ public class Principal extends JFrame {
 		btnCadastrarVenda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CadastrarVenda a = null;
-				a = new CadastrarVenda();
+				try {
+					a = new CadastrarVenda();
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				a.setLocationRelativeTo(null);
 				a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				a.setVisible(true);

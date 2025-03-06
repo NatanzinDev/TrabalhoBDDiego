@@ -4,8 +4,15 @@ public class Venda {
 	private int id;
 	private String nomecliente;
 	private String data;
+	private Combustivel combustivel;
 	
 	
+	public Combustivel getCombustivel() {
+		return combustivel;
+	}
+	public void setCombustivel(Combustivel combustivel) {
+		this.combustivel = combustivel;
+	}
 	@Override
 	public String toString() {
 		return "Venda [nomecliente=" + nomecliente + ", data=" + data + "]";
