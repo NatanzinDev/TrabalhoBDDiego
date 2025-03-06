@@ -1,26 +1,38 @@
 package tela;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import javax.swing.border.TitledBorder;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JButton;
 import javax.swing.JTextField;
-import javax.swing.JLabel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
+import banco.CombustivelDao;
+import banco.VendaDao;
+import dominio.Combustivel;
+import dominio.Venda;
+import javax.swing.border.EtchedBorder;
 
 public class BuscarCombustivel extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
-	private JTextField nomecliente;
-	private JTextField data;
+	private JTextField nome;
+	private JTextField tipo;
 
 	/**
 	 * Launch the application.
@@ -52,24 +64,34 @@ public class BuscarCombustivel extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Buscar Venda", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Buscar Combustivel", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel.setBounds(92, 76, 195, 290);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JButton btnNewButton = new JButton("Buscar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					buscarCombustivel();
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnNewButton.setBounds(52, 240, 85, 21);
 		panel.add(btnNewButton);
 		
-		nomecliente = new JTextField();
-		nomecliente.setBounds(37, 75, 114, 19);
-		panel.add(nomecliente);
-		nomecliente.setColumns(10);
+		nome = new JTextField();
+		nome.setBounds(37, 75, 114, 19);
+		panel.add(nome);
+		nome.setColumns(10);
 		
-		data = new JTextField();
-		data.setColumns(10);
-		data.setBounds(37, 148, 114, 19);
-		panel.add(data);
+		tipo = new JTextField();
+		tipo.setColumns(10);
+		tipo.setBounds(37, 148, 114, 19);
+		panel.add(tipo);
 		
 		JLabel lblNewLabel = new JLabel("Nome");
 		lblNewLabel.setBounds(37, 55, 85, 13);
@@ -99,4 +121,29 @@ public class BuscarCombustivel extends JFrame {
 		));
 		scrollPane.setViewportView(table);
 	}
+
+	protected void buscarCombustivel() throws ClassNotFoundException, SQLException {
+		if((nome.getText() == null || nome.getText().isEmpty()) && (tipo.getText() == null || tipo.getText().isEmpty()) ) {
+			JOptionPane.showMessageDialog(null, "Algum campo precisa está preenchido para buscar.");
+			return;
+		}
+		
+		CombustivelDao dao = new CombustivelDao();
+		List<Combustivel> encontrado = new ArrayList<>();
+		
+		encontrado = dao.buscarCombustivel(nome.getText(), tipo.getText());
+		DefaultTableModel modelo = new DefaultTableModel(new String[] { "Nome", "Tipo", "Valor"}, 0);
+		
+		for (int i = 0; i < encontrado.size(); i++) {
+			Combustivel c = encontrado.get(i);
+			
+			modelo.addRow(new String[] { c.getNome(),c.getTipo() ,c.getValor() ,});
+		}
+		
+		table.setModel(modelo);
+		
+		
+	}
+
+
 }

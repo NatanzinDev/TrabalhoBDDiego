@@ -1,18 +1,27 @@
 package tela;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import javax.swing.border.TitledBorder;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JButton;
 import javax.swing.JTextField;
-import javax.swing.JLabel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
+import banco.VendaDao;
+import dominio.Venda;
 
 public class BuscarVenda extends JFrame {
 
@@ -58,6 +67,16 @@ public class BuscarVenda extends JFrame {
 		panel.setLayout(null);
 		
 		JButton btnNewButton = new JButton("Buscar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					buscarVenda();
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnNewButton.setBounds(52, 240, 85, 21);
 		panel.add(btnNewButton);
 		
@@ -98,5 +117,28 @@ public class BuscarVenda extends JFrame {
 			}
 		));
 		scrollPane.setViewportView(table);
+	}
+
+	protected void buscarVenda() throws ClassNotFoundException, SQLException {
+		if((nomecliente.getText() == null || nomecliente.getText().isEmpty()) && (data.getText() == null || data.getText().isEmpty()) ) {
+			JOptionPane.showMessageDialog(null, "Algum campo precisa está preenchido para buscar.");
+			return;
+		}
+		
+		VendaDao dao = new VendaDao();
+		List<Venda> encontrado = new ArrayList<>();
+		
+		encontrado = dao.buscarVenda(nomecliente.getText(), data.getText());
+		DefaultTableModel modelo = new DefaultTableModel(new String[] { "Cliente", "Data", "Combustivel"}, 0);
+		
+		for (int i = 0; i < encontrado.size(); i++) {
+			Venda v = encontrado.get(i);
+			
+			modelo.addRow(new String[] { v.getNomecliente(),v.getData() ,v.getCombustivel().getNome() ,});
+		}
+		
+		table.setModel(modelo);
+		
+		
 	}
 }
