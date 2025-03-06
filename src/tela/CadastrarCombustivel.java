@@ -34,7 +34,6 @@ public class CadastrarCombustivel extends JFrame {
 	private JTextField textFieldNome;
 	private JTextField textFieldValor;
 	private JTextField textFielTipo;
-	private JTextField textFieldDataabastecimento;
 	private Combustivel EdicaoCombustivel;
 	private JButton btnNewButtonCadastar;
 	private JList ListaCombustivel;
@@ -85,7 +84,7 @@ public class CadastrarCombustivel extends JFrame {
 		textFieldNome.setColumns(10);
 		
 		textFieldValor = new JTextField();
-		textFieldValor.setBounds(10, 80, 119, 20);
+		textFieldValor.setBounds(76, 83, 119, 20);
 		panel.add(textFieldValor);
 		textFieldValor.setColumns(10);
 		
@@ -94,26 +93,17 @@ public class CadastrarCombustivel extends JFrame {
 		panel.add(textFielTipo);
 		textFielTipo.setColumns(10);
 		
-		textFieldDataabastecimento = new JTextField();
-		textFieldDataabastecimento.setBounds(152, 80, 119, 20);
-		panel.add(textFieldDataabastecimento);
-		textFieldDataabastecimento.setColumns(10);
-		
 		JLabel lblNewLabel = new JLabel("Nome");
 		lblNewLabel.setBounds(10, 22, 46, 14);
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Valor");
-		lblNewLabel_1.setBounds(10, 67, 46, 14);
+		lblNewLabel_1.setBounds(76, 66, 46, 14);
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Tipo");
 		lblNewLabel_2.setBounds(156, 22, 46, 14);
 		panel.add(lblNewLabel_2);
-		
-		JLabel lblNewLabel_3 = new JLabel("Data Abastecimento");
-		lblNewLabel_3.setBounds(152, 67, 103, 14);
-		panel.add(lblNewLabel_3);
 		
 		btnNewButtonCadastar = new JButton("Cadastrar");
 		btnNewButtonCadastar.addActionListener(new ActionListener() {
@@ -179,8 +169,7 @@ public class CadastrarCombustivel extends JFrame {
 				
 				String msg = "Nome: " + CombustivelSelecionado.getNome() +
 						"\nValor: " + CombustivelSelecionado.getValor() +
-						"\nTipo: " + CombustivelSelecionado.getTipo() +
-						"\nData Abastecimento: " + CombustivelSelecionado.getDataabastecimento();
+						"\nTipo: " + CombustivelSelecionado.getTipo() ;
 				
 				ExibirMensagem(msg);
 				
@@ -231,7 +220,7 @@ public class CadastrarCombustivel extends JFrame {
 		textFieldNome.setText(EdicaoCombustivel.getNome());
 		textFieldValor.setText(EdicaoCombustivel.getValor());
 		textFielTipo.setText(EdicaoCombustivel.getTipo());
-		textFieldDataabastecimento.setText(EdicaoCombustivel.getDataabastecimento());
+		
 		
 		btnNewButtonCadastar.setText("Editar Dados");
 		
@@ -262,7 +251,7 @@ public class CadastrarCombustivel extends JFrame {
 			a.setNome(resultado.getString("nome"));
 			a.setValor(resultado.getString("valor"));
 			a.setTipo(resultado.getString("tipo"));
-			a.setDataabastecimento(resultado.getString("dataabastecimento"));
+			
 			
 			CombustivelCadastrados.add(a);
 			
@@ -303,30 +292,27 @@ public class CadastrarCombustivel extends JFrame {
 			return;
 		}
 		
-		if(textFieldDataabastecimento.getText() == null || textFieldDataabastecimento.getText().isEmpty()) {
-			ExibirMensagemErro("Data Abastecimentonão pode ser vazio");
-			return;
-		}
+		
 		
 		if (btnNewButtonCadastar.getText().equals("Cadastrar")) {
 			
 			Connection conexao = FabricaConexao.criarConexao();
 			
-		String sql = "INSERT INTO POSTOCOMBUSTIVEL (nome, valor, tipo, dataabastecimento) VALUES (?,?,?,?)";
+		String sql = "INSERT INTO POSTOCOMBUSTIVEL (nome, valor, tipo) VALUES (?,?,?)";
 		
 		Combustivel a = new Combustivel();
 		
 		a.setNome(textFieldNome.getText());
 		a.setValor(textFieldValor.getText());
 		a.setTipo(textFielTipo.getText());
-		a.setDataabastecimento(textFieldDataabastecimento.getText());
+		
 		
 		PreparedStatement comando = conexao.prepareStatement(sql);
 		
 		comando.setString(1, a.getNome());
 		comando.setString(2, a.getValor());
 		comando.setString(3, a.getTipo());
-		comando.setString(4, a.getDataabastecimento());
+		
 		comando.execute();
 		
 		System.out.println("Fechando conexão...");
@@ -334,7 +320,7 @@ public class CadastrarCombustivel extends JFrame {
 		comando.close();
 		conexao.close();
 		
-		JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso", "Posto Baixinha", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Cadastrada com sucesso", "Posto Baixinha", JOptionPane.INFORMATION_MESSAGE);
 		
 		} else if (btnNewButtonCadastar.getText().equals("Editar Dados")){
 			
@@ -343,16 +329,15 @@ public class CadastrarCombustivel extends JFrame {
 			EdicaoCombustivel.setNome(textFieldNome.getText());
 			EdicaoCombustivel.setValor(textFieldValor.getText());
 			EdicaoCombustivel.setTipo(textFielTipo.getText());
-			EdicaoCombustivel.setDataabastecimento(textFieldDataabastecimento.getText());
+		
 			
-			String sql = "UPDATE POSTOCOMBUSTIVEL SET NOME=?, VALOR=?, TIPO=?, DATAABASTECIMENTO=? WHERE ID_COMBUSTIVEL=?";
+			String sql = "UPDATE POSTOCOMBUSTIVEL SET NOME=?, VALOR=?, TIPO=? WHERE ID_COMBUSTIVEL=?";
 			
 			PreparedStatement comando = conexao.prepareStatement(sql);
 			comando.setString(1, EdicaoCombustivel.getNome());
 			comando.setString(2, EdicaoCombustivel.getValor());
 			comando.setString(3, EdicaoCombustivel.getTipo());
-			comando.setString(4, EdicaoCombustivel.getDataabastecimento());
-			comando.setInt(5, EdicaoCombustivel.getId());
+			comando.setInt(4, EdicaoCombustivel.getId());
 			comando.executeUpdate();
 			
 			ExibirMensagem("Dados Alterados");
@@ -369,7 +354,7 @@ public class CadastrarCombustivel extends JFrame {
 		textFieldNome.setText("");
 		textFieldValor.setText("");
 		textFielTipo.setText("");
-		textFieldDataabastecimento.setText("");
+		
 		
 	}
 

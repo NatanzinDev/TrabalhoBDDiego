@@ -1,6 +1,7 @@
 package dominio;
 
 public class Venda {
+	private int id;
 	private String nomecliente;
 	private String data;
 	
@@ -20,6 +21,12 @@ public class Venda {
 	}
 	public void setData(String data) {
 		this.data = data;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }

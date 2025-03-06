@@ -4,7 +4,7 @@ public class Combustivel {
 	
 	@Override
 	public String toString() {
-		return "Nome: " + nome + " - " + "Combustivel: " + tipo;
+		return "Nome: " + nome + " - " + "Tipo: " + tipo;
 	}
  
 

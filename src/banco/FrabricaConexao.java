@@ -10,7 +10,7 @@ public class FrabricaConexao {
 
 		public static Connection criarConexao() throws ClassNotFoundException, SQLException {
 
-			String stringDeConexao = "jdbc:mysql: //localhost/combustivelbaixinha?useTimezone=true&serverTimezone=UTC";
+			String stringDeConexao = "jdbc:mysql://localhost/combustivelbaixinha?useTimezone=true&serverTimezone=UTC";
 
 			String usuario = "root";
 

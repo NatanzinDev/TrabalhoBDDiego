@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class Principal extends JFrame {
 
@@ -54,31 +55,71 @@ public class Principal extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnNewButton = new JButton("INICIAR CADASTRO");
+		JButton btnNewButton = new JButton("CADASTRAR COMBUSTIVEL");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				CadastrarCombustivel cc = null;
+				CadastrarCombustivel a = null;
 				try {
-					
-					cc = new CadastrarCombustivel();
-					
+					a = new CadastrarCombustivel();
 				} catch (ClassNotFoundException | SQLException e1) {
-					
+					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				cc.setVisible(true);
+				a.setLocationRelativeTo(null);
+				a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				a.setVisible(true);
 				
 			}
 
 			
 		});
-		btnNewButton.setBounds(142, 140, 159, 23);
+		btnNewButton.setBounds(111, 98, 213, 23);
 		panel.add(btnNewButton);
 		
 		JLabel lblNewLabel = new JLabel("SE VOCÊ FOR FUNCIONÁRIO, CLIQUE ABAIXO");
-		lblNewLabel.setBounds(101, 52, 327, 36);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(46, 47, 327, 36);
 		panel.add(lblNewLabel);
+		
+		JButton btnCadastrarVenda = new JButton("CADASTRAR VENDA");
+		btnCadastrarVenda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CadastrarVenda a = null;
+				a = new CadastrarVenda();
+				a.setLocationRelativeTo(null);
+				a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				a.setVisible(true);
+			}
+		});
+		btnCadastrarVenda.setBounds(111, 131, 213, 23);
+		panel.add(btnCadastrarVenda);
+		
+		JButton btnNewButton_1_1 = new JButton("BUSCAR VENDA");
+		btnNewButton_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BuscarVenda a = null;
+				a = new BuscarVenda();
+				a.setLocationRelativeTo(null);
+				a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				a.setVisible(true);
+			}
+		});
+		btnNewButton_1_1.setBounds(111, 164, 213, 23);
+		panel.add(btnNewButton_1_1);
+		
+		JButton btnNewButton_1_1_1 = new JButton("BUSCAR COMBUSTIVEL");
+		btnNewButton_1_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BuscarCombustivel a = null;
+				a = new BuscarCombustivel();
+				a.setLocationRelativeTo(null);
+				a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				a.setVisible(true);
+			}
+		});
+		btnNewButton_1_1_1.setBounds(111, 197, 213, 23);
+		panel.add(btnNewButton_1_1_1);
 	}
 }
 
